@@ -30,8 +30,6 @@ px4-dev-base-archlinux:
 px4-dev-base-bionic:
 	docker build -t px4io/px4-dev-base-bionic . -f Dockerfile_base-bionic
 
-px4-dev-base-focal:
-	docker build -t px4io/px4-dev-base-focal . -f Dockerfile_base-focal
 
 px4-dev-base-xenial:
 	docker build -t px4io/px4-dev-base-xenial . -f Dockerfile_base-xenial
@@ -57,8 +55,6 @@ px4-dev-ros-kinetic: px4-dev-simulation-xenial
 px4-dev-ros-melodic: px4-dev-simulation-bionic
 	docker build -t px4io/px4-dev-ros-melodic . -f Dockerfile_ros-melodic
 
-px4-dev-ros-noetic: px4-dev-simulation-focal
-	docker build -t px4io/px4-dev-ros-noetic . -f Dockerfile_ros-noetic
 
 px4-dev-ros2-ardent: px4-dev-ros-kinetic
 	docker build -t px4io/px4-dev-ros2-ardent . -f Dockerfile_ros2-ardent
@@ -78,17 +74,34 @@ px4-dev-ros2-dashing: px4-dev-ros-melodic
 px4-dev-ros2-eloquent: px4-dev-ros-melodic
 	docker build -t px4io/px4-dev-ros2-eloquent . -f Dockerfile_ros2-eloquent
 
-px4-dev-ros2-foxy: px4-dev-ros-noetic
-	docker build -t px4io/px4-dev-ros2-foxy . -f Dockerfile_ros2-foxy
-
 px4-dev-simulation-bionic: px4-dev-base-bionic
 	docker build -t px4io/px4-dev-simulation-bionic . -f Dockerfile_simulation-bionic
 
-px4-dev-simulation-focal: px4-dev-base-focal
-	docker build -t px4io/px4-dev-simulation-focal . -f Dockerfile_simulation-focal
 
 px4-dev-simulation-xenial: px4-dev-base-xenial
 	docker build -t px4io/px4-dev-simulation-xenial . -f Dockerfile_simulation-xenial
 
 px4-docs:
 	docker build -t px4io/px4-dev-docs . -f Dockerfile_docs
+
+
+
+
+
+px4-dev-base-focal:
+	docker build -t px4io/px4-dev-base-focal . -f Dockerfile_base-focal
+
+px4-dev-simulation-focal: px4-dev-base-focal
+	docker build -t px4io/px4-dev-simulation-focal . -f Dockerfile_simulation-focal
+
+px4-dev-ros-noetic: px4-dev-simulation-focal
+	docker build -t px4io/px4-dev-ros-noetic . -f Dockerfile_ros-noetic
+
+px4-dev-ros2-foxy: px4-dev-ros-noetic
+	docker build -t px4io/px4-dev-ros2-foxy . -f Dockerfile_ros2-foxy
+
+px4-dev-opengl: px4-dev-ros2-foxy
+	docker build -t px4io/px4-dev-opengl . -f Dockerfile_opengl
+
+px4-dev-demo: px4-dev-opengl
+	docker build -t px4io/px4-dev-demo . -f Dockerfile_demo
