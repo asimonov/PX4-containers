@@ -2,15 +2,12 @@
 xhost +
 
 # docker hygiene
-
 #Delete all stopped containers (including data-only containers)
 #docker rm $(docker ps -a -q)
-
 #Delete all 'untagged/dangling' (<none>) images
 #docker rmi $(docker images -q -f dangling=true)
 
 #echo "PX4_DOCKER_REPO: $PX4_DOCKER_REPO";
-
 #PWD=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 #SRC_DIR=$PWD/../
 SRC_DIR=$HOME/dev/px4/PX4-Autopilot
@@ -19,22 +16,23 @@ CCACHE_DIR=${HOME}/.ccache
 mkdir -p "${CCACHE_DIR}"
 
 # Run docker and open bash shell
-docker run -it -d \
-  --privileged \
+nvidia-docker run -it -d --rm \
+  --privileged=True \
   --dns 127.0.0.53 \
   --net=host \
   --env DISPLAY=${DISPLAY} \
   --env=TERM="xterm-color"\
-  --env=HOME="/home/nissan"\
+  --env=HOME="/home/tii"\
   --env="QT_X11_NO_MITSHM=1" \
   --env=LOCAL_USER_ID="$(id -u)" \
-  -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="$HOME:/home/tii:rw"\
   --publish 14556:14556/udp \
   --volume=${CCACHE_DIR}:${CCACHE_DIR}:rw \
   --volume=${SRC_DIR}:/src/PX4-Autopilot/:rw \
   -w /src/PX4-Autopilot/ \
-  --name=px4_alexey \
-  px4io/px4-dev-opengl:latest bash
+  --name=tii_av_indoor_container \
+  px4io/px4-dev-opengl:latest $SHELL
 
 
 #docker run -it --rm -w "${SRC_DIR}" \
